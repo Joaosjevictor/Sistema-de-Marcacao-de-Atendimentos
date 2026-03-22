@@ -8,11 +8,15 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
 
+
 public class TelaLogin extends JFrame {
+
+    int xCentral = 100;
+    int larguraCampo = 340;
 
     public TelaLogin() {
         setTitle("Barber Shop - Login");
-        setSize(400, 550); // Ajuste para o tamanho da sua imagem
+        setSize(540, 960); // Ajuste para o tamanho da sua imagem
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centraliza na tela
 
@@ -22,36 +26,53 @@ public class TelaLogin extends JFrame {
 
         // --- Campo Usuário ---
         JLabel lblUsuario = new JLabel("Usuário");
-        lblUsuario.setForeground(Color.WHITE); // Texto branco
+        lblUsuario.setForeground(new Color(150, 150, 150)); // Texto branco
         lblUsuario.setFont(new Font("Serif", Font.BOLD, 14)); // Fonte elegante
-        lblUsuario.setBounds(100, 180, 200, 20); // Posiciona
+        lblUsuario.setBounds(xCentral, 600, larguraCampo, 20); // Posiciona
         painel.add(lblUsuario);
 
         JTextField txtUsuario = new JTextField();
-        txtUsuario.setBounds(100, 200, 200, 30); // Posiciona
+        txtUsuario.setBounds(xCentral, 625, larguraCampo, 40); // Posiciona
+        txtUsuario.setBackground(new Color(230, 230, 230));
         txtUsuario.setBorder(null); // Remove a borda padrão para um visual limpo
         painel.add(txtUsuario);
 
         // --- Campo Senha ---
         JLabel lblSenha = new JLabel("Senha");
-        lblSenha.setForeground(Color.WHITE);
+        lblSenha.setForeground(new Color(150, 150, 150));
         lblSenha.setFont(new Font("Serif", Font.BOLD, 14));
-        lblSenha.setBounds(100, 240, 200, 20);
+        lblSenha.setBounds(xCentral, 690, larguraCampo, 20);
         painel.add(lblSenha);
 
         JPasswordField txtSenha = new JPasswordField(); // Campo específico para senhas
-        txtSenha.setBounds(100, 260, 200, 30);
+        txtSenha.setBounds(xCentral, 715, larguraCampo, 40);
+        txtSenha.setBackground(new Color(230, 230, 230));
         txtSenha.setBorder(null);
         painel.add(txtSenha);
 
         // --- Botão Entrar ---
         JButton btnEntrar = new JButton("Entrar");
-        btnEntrar.setBounds(100, 310, 200, 40);
-        btnEntrar.setBackground(new Color(200, 200, 200)); // Cinza claro
-        btnEntrar.setForeground(Color.BLACK); // Texto preto
+        btnEntrar.setBounds(xCentral, 780, larguraCampo, 55);
+        btnEntrar.setBackground(new Color(30, 30, 30)); // Cinza claro
+        btnEntrar.setForeground(Color.WHITE); // Texto preto
         btnEntrar.setFont(new Font("Arial", Font.BOLD, 16));
         btnEntrar.setFocusPainted(false); // Remove a borda de foco ao clicar
         painel.add(btnEntrar);
+
+         // --- Botão Cadastrar ---
+        JButton btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBounds(xCentral, 850, larguraCampo, 55);
+        btnCadastrar.setBackground(new Color(30, 30, 30)); // Cinza claro
+        btnCadastrar.setForeground(Color.WHITE); // Texto preto
+        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnCadastrar.setFocusPainted(false); // Remove a borda de foco ao clicar
+        painel.add(btnCadastrar);
+    
+        // Ação do botão Cadastrar para abrir a tela de cadastro
+        btnCadastrar.addActionListener(e -> {
+            new TelaCadastro().setVisible(true);
+            this.dispose(); // Fecha a tela de login
+        });
     }
 
     public static void main(String[] args) {
