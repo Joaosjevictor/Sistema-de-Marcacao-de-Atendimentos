@@ -9,12 +9,17 @@ public class TelaCadastro extends JFrame {
 
     public TelaCadastro() {
         setTitle("Invictus - Cadastro de Cliente");
-        setSize(540, 960);
+        /*setSize(540, 960);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);*/
+        // No construtor da TelaLogin ou TelaCadastro
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int) (screenSize.height * 0.85); // Usa 85% da altura da tela do usuário
+        int width = (int) (height * 0.56); // Mantém a proporção vertical
+        setSize(width, height); 
 
         // Reutiliza o painel de fundo que você já criou
-        PainelFundoBarbearia painel = new PainelFundoBarbearia();
+        PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
         add(painel);
 
         // Configurações comuns de estilo
@@ -24,7 +29,7 @@ public class TelaCadastro extends JFrame {
         int largura = 340;
 
         // --- CAMPO NOME ---
-        JLabel lblNome = new JLabel("FULL NAME");
+        JLabel lblNome = new JLabel("NOME COMPLETO");
         lblNome.setForeground(corTexto);
         lblNome.setFont(fonteLabel);
         lblNome.setBounds(xCentro, 450, largura, 20); // Começa mais alto (450)
@@ -37,7 +42,7 @@ public class TelaCadastro extends JFrame {
         painel.add(txtNome);
 
         // --- CAMPO TELEFONE (Com Máscara) ---
-        JLabel lblTelefone = new JLabel("PHONE");
+        JLabel lblTelefone = new JLabel("TELEFONE");
         lblTelefone.setForeground(corTexto);
         lblTelefone.setFont(fonteLabel);
         lblTelefone.setBounds(xCentro, 530, largura, 20);
@@ -69,7 +74,7 @@ public class TelaCadastro extends JFrame {
         painel.add(txtEmail);
 
         // --- CAMPO SENHA ---
-        JLabel lblSenha = new JLabel("PASSWORD");
+        JLabel lblSenha = new JLabel("SENHA");
         lblSenha.setForeground(corTexto);
         lblSenha.setFont(fonteLabel);
         lblSenha.setBounds(xCentro, 690, largura, 20);
@@ -82,7 +87,7 @@ public class TelaCadastro extends JFrame {
         painel.add(txtSenha);
 
         // --- BOTÃO CADASTRAR ---
-        JButton btnCadastrar = new JButton("Create Account");
+        JButton btnCadastrar = new JButton("CRIAR CONTA");
         btnCadastrar.setBounds(xCentro, 790, largura, 55);
         btnCadastrar.setBackground(new Color(25, 25, 25));
         btnCadastrar.setForeground(Color.WHITE);
@@ -92,7 +97,7 @@ public class TelaCadastro extends JFrame {
         painel.add(btnCadastrar);
 
         // --- BOTÃO VOLTAR (Para o Login) ---
-        JButton btnVoltar = new JButton("Back to Login");
+        JButton btnVoltar = new JButton("VOLTAR PARA O LOGIN");
         btnVoltar.setBounds(xCentro, 860, largura, 30);
         btnVoltar.setContentAreaFilled(false); // Transparente
         btnVoltar.setBorderPainted(false);      // Sem borda

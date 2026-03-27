@@ -6,7 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 
 public class TelaLogin extends JFrame {
@@ -16,9 +18,14 @@ public class TelaLogin extends JFrame {
 
     public TelaLogin() {
         setTitle("Barber Shop - Login");
-        setSize(540, 960); // Ajuste para o tamanho da sua imagem
+        /*setSize(540, 960); // Ajuste para o tamanho da sua imagem
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centraliza na tela
+        setLocationRelativeTo(nul l); // Centraliza na tela*/
+        // No construtor da TelaLogin ou TelaCadastro
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int) (screenSize.height * 0.85); // Usa 85% da altura da tela do usuário
+        int width = (int) (height * 0.56); // Mantém a proporção vertical
+        setSize(width, height);
 
         // Cria o painel personalizado com o fundo
         PainelFundoBarbearia painel = new PainelFundoBarbearia();
