@@ -3,14 +3,43 @@ package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
+@Table(name = "BD_AGENDAMENTOS")
 public class Agendamento {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+    
+    @ManyToOne
+    @JoinColumn(name = "servico_id", nullable = false)
     private Servico servico;
+    
+    @Column(nullable = false)
     private float valor;
-    private Date data;
+    
+    @Column(nullable = false)
+    private LocalDateTime data;
+    
+    @Column(nullable = false, length = 10)
     private boolean status = false;
 
 
@@ -19,14 +48,16 @@ public class Agendamento {
     }
 
     public Agendamento(int id, Cliente cliente, Servico servico, float valor, String data, boolean status) {
-        this.id = id;
+        this.id = 0;
         this.cliente = cliente;
         this.servico = servico;
         this.valor = valor;
         try {
-            this.data = new SimpleDateFormat("dd/MM/yyyy  HH:mm").parse(data);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            this.data = LocalDateTime.parse(data, parser);
+        } catch (java.time.format.DateTimeParseException e) {
+        System.err.println("Erro: Formato de data inválido! Use dd/MM/yyyy HH:mm");
+        e.printStackTrace();
         }
         this.status = false;
 
@@ -64,11 +95,11 @@ public class Agendamento {
         this.valor = valor;
     }
 
-    public Date getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 

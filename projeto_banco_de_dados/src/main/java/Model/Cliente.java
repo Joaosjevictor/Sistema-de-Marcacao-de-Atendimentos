@@ -1,8 +1,14 @@
 package model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "BD_CLIENTE")
 public class Cliente extends Pessoa {
     
-    
+    @Column(nullable = false, length = 255)
     private String endereco;
 
     public Cliente() {

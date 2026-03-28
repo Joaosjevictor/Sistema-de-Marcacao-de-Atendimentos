@@ -1,7 +1,17 @@
 package model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "BD_USUARIO")
 public class Usuario extends Pessoa {
+    
+    @Column(nullable = false, length = 100)
     private String senha;
+
+    @Column(nullable = false, length = 20)
     private String nivelAcesso;
 
     public Usuario() {

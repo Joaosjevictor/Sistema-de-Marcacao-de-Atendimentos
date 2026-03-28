@@ -79,10 +79,10 @@ public class TelaServicos extends JFrame {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    private void proximoPasso(String servicoSelecionado) {
-        JOptionPane.showMessageDialog(this, "Você selecionou: " + servicoSelecionado);
+    private void selecionarServico(String nomeServico) {
+        JOptionPane.showMessageDialog(this, "Você selecionou: " + nomeServico);
         this.dispose(); // Fecha a tela de serviços
-        new TelaAgendamento(servicoSelecionado).setVisible(true); // Abre a de agendamento passando o nome do serviço
+        new TelaAgendamento(nomeServico).setVisible(true); // Abre a de agendamento passando o nome do serviço
     }
 
     public void fecharTela() {

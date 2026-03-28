@@ -1,8 +1,24 @@
 package model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "BD_SERVICO")
 public class Servico {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @Column(nullable = false, length = 255)
     private String descricao;
+    
+    @Column(nullable = false, length = 10)
     private double preco;
 
     
@@ -11,7 +27,7 @@ public class Servico {
     }
 
     public Servico(int id, String descricao, double preco) {
-        this.id = id;
+        this.id = 0;
         this.descricao = descricao;
         this.preco = preco;
     }
