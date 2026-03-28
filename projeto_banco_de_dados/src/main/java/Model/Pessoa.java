@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public abstract class Pessoa {
         this.id = id;
         this.nome = nome;
         try {
-            this.dataNascimento = new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento);
+            this.dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(dataNascimento);
         } catch (ParseException e) {
             e.printStackTrace();
         }

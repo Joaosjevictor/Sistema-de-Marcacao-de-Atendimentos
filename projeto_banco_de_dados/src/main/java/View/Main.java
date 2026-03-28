@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Model.Servico;
+import model.Servico;
 
 public class Main {
 

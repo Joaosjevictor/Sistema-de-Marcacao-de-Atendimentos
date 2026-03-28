@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 
 import java.text.ParseException;
@@ -24,7 +24,7 @@ public class Agendamento {
         this.servico = servico;
         this.valor = valor;
         try {
-            this.data = new SimpleDateFormat("dd/mm/yyyy  HH:mm").parse(data);
+            this.data = new SimpleDateFormat("dd/MM/yyyy  HH:mm").parse(data);
         } catch (ParseException e) {
             e.printStackTrace();
         }

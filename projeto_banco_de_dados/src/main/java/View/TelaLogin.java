@@ -1,10 +1,12 @@
-package View;
+package view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,6 +32,11 @@ public class TelaLogin extends JFrame {
         // Cria o painel personalizado com o fundo
         PainelFundoBarbearia painel = new PainelFundoBarbearia();
         add(painel);
+
+        /*JLabel lblTitulo = new JLabel("LOGIN", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 22));
+        lblTitulo.setBounds(0, 420, 540, 30);
+        painel.add(lblTitulo);*/
 
         // --- Campo Usuário ---
         JLabel lblUsuario = new JLabel("Usuário");
@@ -66,6 +73,11 @@ public class TelaLogin extends JFrame {
         btnEntrar.setFocusPainted(false); // Remove a borda de foco ao clicar
         painel.add(btnEntrar);
 
+        btnEntrar.addActionListener(e -> {
+            new TelaServicos().setVisible(true);
+            this.dispose(); // Fecha a tela de login
+        });
+
          // --- Botão Cadastrar ---
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBounds(xCentral, 850, larguraCampo, 55);
@@ -80,6 +92,8 @@ public class TelaLogin extends JFrame {
             new TelaCadastro().setVisible(true);
             this.dispose(); // Fecha a tela de login
         });
+
+          
     }
 
     public static void main(String[] args) {
