@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import controller.ServicosController;
+
 import java.awt.*;
 
 public class TelaServicos extends JFrame {
@@ -11,6 +14,7 @@ public class TelaServicos extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        ServicosController controller = new ServicosController(this);
         // Usando o fundo limpo para não conflitar com o texto
         PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
         add(painel);
@@ -55,9 +59,9 @@ public class TelaServicos extends JFrame {
         painel.add(btnSair);
 
         // Eventos de clique (Exemplo)
-        btnCabelo.addActionListener(e -> proximoPasso("Corte de Cabelo"));
-        btnBarba.addActionListener(e -> proximoPasso("Barba"));
-        btnCombo.addActionListener(e -> proximoPasso("Combo Cabelo + Barba"));
+        btnCabelo.addActionListener(e -> controller.selecionarServico("Corte de Cabelo"));
+        btnBarba.addActionListener(e -> controller.selecionarServico("Barba"));
+        btnCombo.addActionListener(e -> controller.selecionarServico("Combo Cabelo + Barba"));
         
         btnSair.addActionListener(e -> {
             this.dispose();
@@ -79,6 +83,10 @@ public class TelaServicos extends JFrame {
         JOptionPane.showMessageDialog(this, "Você selecionou: " + servicoSelecionado);
         this.dispose(); // Fecha a tela de serviços
         new TelaAgendamento(servicoSelecionado).setVisible(true); // Abre a de agendamento passando o nome do serviço
+    }
+
+    public void fecharTela() {
+    this.dispose();
     }
 
     

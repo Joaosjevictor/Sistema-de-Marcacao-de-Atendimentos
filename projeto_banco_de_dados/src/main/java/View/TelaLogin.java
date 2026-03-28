@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import controller.LoginController;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +16,9 @@ import java.awt.Toolkit;
 
 public class TelaLogin extends JFrame {
 
+
+    private JTextField txtUsuario; 
+    private JPasswordField txtSenha;
     int xCentral = 100;
     int larguraCampo = 340;
 
@@ -29,9 +33,11 @@ public class TelaLogin extends JFrame {
         int width = (int) (height * 0.56); // Mantém a proporção vertical
         setSize(width, height);
 
+        LoginController controller = new LoginController(this);
         // Cria o painel personalizado com o fundo
         PainelFundoBarbearia painel = new PainelFundoBarbearia();
         add(painel);
+
 
         /*JLabel lblTitulo = new JLabel("LOGIN", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 22));
@@ -45,7 +51,7 @@ public class TelaLogin extends JFrame {
         lblUsuario.setBounds(xCentral, 600, larguraCampo, 20); // Posiciona
         painel.add(lblUsuario);
 
-        JTextField txtUsuario = new JTextField();
+        txtUsuario = new JTextField();
         txtUsuario.setBounds(xCentral, 625, larguraCampo, 40); // Posiciona
         txtUsuario.setBackground(new Color(230, 230, 230));
         txtUsuario.setBorder(null); // Remove a borda padrão para um visual limpo
@@ -58,7 +64,7 @@ public class TelaLogin extends JFrame {
         lblSenha.setBounds(xCentral, 690, larguraCampo, 20);
         painel.add(lblSenha);
 
-        JPasswordField txtSenha = new JPasswordField(); // Campo específico para senhas
+        txtSenha = new JPasswordField(); // Campo específico para senhas
         txtSenha.setBounds(xCentral, 715, larguraCampo, 40);
         txtSenha.setBackground(new Color(230, 230, 230));
         txtSenha.setBorder(null);
@@ -74,9 +80,14 @@ public class TelaLogin extends JFrame {
         painel.add(btnEntrar);
 
         btnEntrar.addActionListener(e -> {
+        controller.entrarNoSistema();
+        });
+        
+        btnEntrar.addActionListener(e -> {
             new TelaServicos().setVisible(true);
             this.dispose(); // Fecha a tela de login
         });
+
 
          // --- Botão Cadastrar ---
         JButton btnCadastrar = new JButton("Cadastrar");
@@ -95,6 +106,14 @@ public class TelaLogin extends JFrame {
 
           
     }
+
+    public JTextField getTxtUsuario() {
+    return txtUsuario;
+    }
+
+    public JPasswordField getTxtSenha() {
+    return txtSenha;
+    }   
 
     public static void main(String[] args) {
         new TelaLogin().setVisible(true);

@@ -2,16 +2,24 @@ package view;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
+
+import controller.AgendamentoController;
+
 import java.awt.*;
 import java.text.ParseException;
 
 public class TelaAgendamento extends JFrame {
+
+    private JFormattedTextField txtData;
+    private JComboBox<String> comboHoras;
 
     public TelaAgendamento(String servicoSelecionado) {
         setTitle("Invictus - Agendar Horário");
         setSize(540, 960);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        AgendamentoController controller = new AgendamentoController(this, servicoSelecionado);
 
         PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
         add(painel);
@@ -36,7 +44,7 @@ public class TelaAgendamento extends JFrame {
         lblData.setBounds(xCentro, 480, largura, 20);
         painel.add(lblData);
 
-        JFormattedTextField txtData = new JFormattedTextField();
+        txtData = new JFormattedTextField();
         try {
             MaskFormatter mascaraData = new MaskFormatter("##/##/####");
             mascaraData.setPlaceholderCharacter('_');
@@ -57,7 +65,7 @@ public class TelaAgendamento extends JFrame {
         painel.add(lblHora);
 
         String[] horarios = {"09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "18:00"};
-        JComboBox<String> comboHoras = new JComboBox<>(horarios);
+        comboHoras = new JComboBox<>(horarios);
         comboHoras.setBounds(xCentro, 605, largura, 45);
         comboHoras.setBackground(Color.WHITE);
         comboHoras.setFont(new Font("SansSerif", Font.PLAIN, 16));
@@ -72,11 +80,15 @@ public class TelaAgendamento extends JFrame {
         btnFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painel.add(btnFinalizar);
 
+         btnFinalizar.addActionListener(e -> {
+            controller.confirmarAgendamento();
+        });  
+        
         // Lógica de Confirmação
         btnFinalizar.addActionListener(e -> {
             String data = txtData.getText();
             String hora = (String) comboHoras.getSelectedItem();
-            
+              
             if (data.contains("_")) {
                 JOptionPane.showMessageDialog(this, "Por favor, preencha a data corretamente.");
             } else {
@@ -86,4 +98,14 @@ public class TelaAgendamento extends JFrame {
             }
         });
     }
+
+    public JFormattedTextField getTxtData() {
+        return txtData;
+    }
+
+    public JComboBox<String> getComboHoras() {
+        return comboHoras;
+    }
+
+    
 }

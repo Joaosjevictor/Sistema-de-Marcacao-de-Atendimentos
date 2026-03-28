@@ -2,10 +2,18 @@ package view;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
+
+import controller.UsuarioController;
+
 import java.awt.*;
 import java.text.ParseException;
 
 public class TelaCadastro extends JFrame {
+
+    private JTextField txtNome; 
+    private JFormattedTextField txtTelefone;
+    private JTextField txtEmail;
+    private JPasswordField txtSenha;
 
     public TelaCadastro() {
         setTitle("Invictus - Cadastro de Cliente");
@@ -17,6 +25,8 @@ public class TelaCadastro extends JFrame {
         int height = (int) (screenSize.height * 0.85); // Usa 85% da altura da tela do usuário
         int width = (int) (height * 0.56); // Mantém a proporção vertical
         setSize(width, height); 
+
+        UsuarioController controller = new UsuarioController(this);
 
         // Reutiliza o painel de fundo que você já criou
         PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
@@ -35,7 +45,7 @@ public class TelaCadastro extends JFrame {
         lblNome.setBounds(xCentro, 450, largura, 20); // Começa mais alto (450)
         painel.add(lblNome);
 
-        JTextField txtNome = new JTextField();
+        txtNome = new JTextField();
         txtNome.setBounds(xCentro, 475, largura, 40);
         txtNome.setBorder(null);
         txtNome.setBackground(new Color(235, 235, 235));
@@ -48,7 +58,7 @@ public class TelaCadastro extends JFrame {
         lblTelefone.setBounds(xCentro, 530, largura, 20);
         painel.add(lblTelefone);
 
-        JFormattedTextField txtTelefone = new JFormattedTextField();
+        txtTelefone = new JFormattedTextField();
         try {
             // Máscara para telefone brasileiro: (##) #####-####
             MaskFormatter mascara = new MaskFormatter("(##) #####-####");
@@ -67,7 +77,7 @@ public class TelaCadastro extends JFrame {
         lblEmail.setBounds(xCentro, 610, largura, 20);
         painel.add(lblEmail);
 
-        JTextField txtEmail = new JTextField();
+        txtEmail = new JTextField();
         txtEmail.setBounds(xCentro, 635, largura, 40);
         txtEmail.setBorder(null);
         txtEmail.setBackground(new Color(235, 235, 235));
@@ -80,7 +90,7 @@ public class TelaCadastro extends JFrame {
         lblSenha.setBounds(xCentro, 690, largura, 20);
         painel.add(lblSenha);
 
-        JPasswordField txtSenha = new JPasswordField();
+        txtSenha = new JPasswordField();
         txtSenha.setBounds(xCentro, 715, largura, 40);
         txtSenha.setBorder(null);
         txtSenha.setBackground(new Color(235, 235, 235));
@@ -95,6 +105,10 @@ public class TelaCadastro extends JFrame {
         btnCadastrar.setFocusPainted(false);
         btnCadastrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painel.add(btnCadastrar);
+
+        btnCadastrar.addActionListener(e -> {
+            controller.salvarNovoUsuario();
+        });
 
         // --- BOTÃO VOLTAR (Para o Login) ---
         JButton btnVoltar = new JButton("VOLTAR PARA O LOGIN");
@@ -111,4 +125,23 @@ public class TelaCadastro extends JFrame {
             new TelaLogin().setVisible(true);
         });
     }
+
+    public JTextField getTxtNome() {
+        return txtNome;
+    }
+
+    public JFormattedTextField getTxtTelefone() {
+        return txtTelefone;
+    }
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public JPasswordField getTxtSenha() {
+        return txtSenha;
+    }
+
+
+    
 }
