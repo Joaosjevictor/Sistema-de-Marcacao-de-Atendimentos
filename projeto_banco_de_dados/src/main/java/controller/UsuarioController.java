@@ -2,6 +2,7 @@ package controller;
 
 import javax.swing.JOptionPane;
 
+import dao.UsuarioDAO;
 import model.Usuario;
 import view.TelaCadastro;
 
@@ -31,9 +32,11 @@ public class UsuarioController {
     // Como ainda não temos o ID do banco, passamos 0 ou null
     Usuario novoUsuario = new Usuario(0, "João", "01/01/2000", "123.456.789-00", "joao@gmail.com", "87 9 999-999", "senha", "cliente");
 
-    // 4. Feedback (Enquanto não temos o DAO)
-    System.out.println("Objeto pronto para o Hibernate: " + novoUsuario.toString());
     
-    JOptionPane.showMessageDialog(view, "Usuário " + nome + " preparado para o banco!");
+    UsuarioDAO dao = new UsuarioDAO();
+    dao.salvar(novoUsuario);
+
+    JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso no banco!");
+    view.dispose(); // Fecha a tela de cadastro
     }
 }

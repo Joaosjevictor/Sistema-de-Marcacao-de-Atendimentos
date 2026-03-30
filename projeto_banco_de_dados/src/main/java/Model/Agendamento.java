@@ -1,8 +1,7 @@
 package model;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -14,8 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 
 @Entity
 @Table(name = "BD_AGENDAMENTOS")
@@ -59,7 +57,7 @@ public class Agendamento {
         System.err.println("Erro: Formato de data inválido! Use dd/MM/yyyy HH:mm");
         e.printStackTrace();
         }
-        this.status = false;
+        this.status = status;
 
     }
 

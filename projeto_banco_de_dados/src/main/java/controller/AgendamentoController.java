@@ -5,7 +5,12 @@ import model.Agendamento;
 import model.Servico;
 import model.Cliente;
 import javax.swing.JOptionPane;
-import java.util.Date;
+
+import dao.AgendamentoDAO;
+import dao.ClienteDAO;
+import dao.ServicoDAO;
+
+import java.util.List;
 
 public class AgendamentoController {
     private final TelaAgendamento view;
@@ -20,24 +25,49 @@ public class AgendamentoController {
         // 1. Coleta os dados da View
         String dataStr = view.getTxtData().getText();
         String horaStr = (String) view.getComboHoras().getSelectedItem();
+        String dataEHora = dataStr + " " + horaStr;
         
         // 2. Validação básica de campo vazio (máscara incompleta)
         if (dataStr.contains("_")) {
             JOptionPane.showMessageDialog(view, "Erro: Informe uma data válida!");
             return;
+        }       
+
+        try {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        ServicoDAO servicoDAO = new ServicoDAO();
+
+        List<Cliente> clientes = clienteDAO.listarTodos();
+        if (clientes.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Erro: Nenhum cliente cadastrado!");
+            return;
         }
+        Cliente clienteSelecionado = clientes.get(0);
 
-        // 3. Montagem do Objeto (Regra de Negócio)
-        // Aqui, para o Hibernate, precisaríamos converter String para Date.
-        // Por enquanto, vamos simular a criação do objeto Model:
-        System.out.println("Processando agendamento...");
-        System.out.println("Serviço: " + servicoSelecionado);
-        System.out.println("Data/Hora: " + dataStr + " às " + horaStr);
+        // 2. Use a variável correta que veio do construtor (nomeServicoSelecionado ou similar)
+        // Se no topo da sua classe o nome for diferente, ajuste aqui:
+        Servico servicoSelecionado = servicoDAO.buscarPorDescricao(this.servicoSelecionado);
 
-        // 4. Feedback ao usuário
-        JOptionPane.showMessageDialog(view, "Agendamento de " + servicoSelecionado + " confirmado para " + dataStr + "!");
-        
-        // 5. Finalização: Fecha a tela e volta para o início ou para a lista
+        // 3. REMOVIDAS as labels "id:", "status:", etc. 
+        // Passamos apenas as variáveis na ordem correta do construtor
+        Agendamento novoAgendamento = new Agendamento(
+            0, 
+            clienteSelecionado, 
+            servicoSelecionado, 
+            (float) servicoSelecionado.getPreco(), 
+            dataEHora, 
+            false
+        );
+
+        AgendamentoDAO agendamentoDAO = new AgendamentoDAO();
+        agendamentoDAO.salvar(novoAgendamento);
+
+        JOptionPane.showMessageDialog(view, "Agendamento realizado para " + dataEHora);
         view.dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Erro ao salvar agendamento: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
+}    
