@@ -1,24 +1,25 @@
 package app;
 
-import view.TelaCadastro;
+
 import model.Servico;
 import dao.ServicoDAO;
 import util.HibernateUtil;
 import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
         try {
             // 1. Inicia o Hibernate e cria as tabelas
             System.out.println("Conectando ao banco...");
-            HibernateUtil.getSessionFactory().openSession();
+            HibernateUtil.getSessionFactory().openSession().close();
             
             // 2. Garante que exista pelo menos um serviço para o teste
             popularServicoInicial();
 
             // 3. Abre a tela de Cadastro
             java.awt.EventQueue.invokeLater(() -> {
-                new TelaCadastro().setVisible(true);
+                new view.TelaLogin().setVisible(true);
             });
             
         } catch (Exception e) {

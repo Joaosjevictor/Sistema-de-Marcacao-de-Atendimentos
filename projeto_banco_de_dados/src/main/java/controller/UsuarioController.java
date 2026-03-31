@@ -15,28 +15,47 @@ public class UsuarioController {
     }
 
     public void salvarNovoUsuario() {
-        // 1. Coleta
-        String nome = view.getTxtNome().getText();
-        String telefone = view.getTxtTelefone().getText();
-        String email = view.getTxtEmail().getText();
-        String senha = new String(view.getTxtSenha().getPassword());
+    // 1. Coleta os dados da View usando os Getters que você criou
+    String nome = view.getTxtNome().getText();
+    String telefone = view.getTxtTelefone().getText();
+    String email = view.getTxtEmail().getText();
+    String senha = new String(view.getTxtSenha().getPassword());
 
-    // 2. Validação simples (Antes de usarmos o Hibernate)
-    if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty()) {
-        JOptionPane.showMessageDialog(view, "Preencha todos os campos!");
-        return; // Para a execução aqui se houver erro
+    // 2. Validação básica: os campos estão vazios?
+    // (O telefone com máscara nunca está vazio, mas podemos checar o nome)
+    if (nome.trim().isEmpty() || email.trim().isEmpty() || senha.isEmpty()) {
+        JOptionPane.showMessageDialog(view, "Por favor, preencha todos os campos!");
+        return;
     }
 
-    // 3. Transformação: Cria o objeto Usuario (O seu Model!)
-    // Aqui usamos o construtor que você criou na classe Usuario
-    // Como ainda não temos o ID do banco, passamos 0 ou null
-    Usuario novoUsuario = new Usuario(0, "João", "01/01/2000", "123.456.789-00", "joao@gmail.com", "87 9 999-999", "senha", "cliente");
+    // 3. Cria o objeto Model 
+    // Como CPF e Data não estão na tela, passamos valores fixos para o teste
+    Usuario novoUsuario = new Usuario(
+        0, 
+        nome, 
+        "01/01/2000",   // Data padrão
+        "000.000.000-00", // CPF padrão
+        email, 
+        telefone, 
+        senha, 
+        "cliente"       // Nível de acesso padrão
+    );
 
-    
-    UsuarioDAO dao = new UsuarioDAO();
-    dao.salvar(novoUsuario);
+    try {
+        // 4. Chama o DAO para gravar no PostgreSQL
+        UsuarioDAO dao = new UsuarioDAO();
+        dao.salvar(novoUsuario);
 
-    JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso no banco!");
-    view.dispose(); // Fecha a tela de cadastro
+        // 5. SUCESSO: Feedback e volta para o Login como você planejou
+        JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso! Faça seu login.");
+        
+        // Navegação: fecha o cadastro e abre o login
+        view.dispose();
+        new view.TelaLogin().setVisible(true);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(view, "Erro ao cadastrar: " + e.getMessage());
+        e.printStackTrace();
     }
-}
+    }
+}   

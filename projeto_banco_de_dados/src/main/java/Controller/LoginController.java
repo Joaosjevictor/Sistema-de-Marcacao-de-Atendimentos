@@ -27,18 +27,28 @@ public class LoginController {
         System.out.println("Usuário " + email + " tentando logar...");
         // Futuramente: chamar o UsuarioDAO aqui
         UsuarioDAO dao = new UsuarioDAO();
-    Usuario usuarioDoBanco = dao.buscarPorEmail(email); // Método que criamos no DAO
+        Usuario usuarioDoBanco = dao.buscarPorEmail(email); // Método que criamos no DAO
 
-    if (usuarioDoBanco != null && usuarioDoBanco.getSenha().equals(senha)) {
-        JOptionPane.showMessageDialog(view, "Bem-vindo, " + usuarioDoBanco.getNome() + "!");
-        
-        // Abre a próxima tela (ex: TelaServicos)
-        new view.TelaServicos().setVisible(true);
-        view.dispose();
-    } else {
+        if (usuarioDoBanco != null && usuarioDoBanco.getSenha().equals(senha)) {
+            JOptionPane.showMessageDialog(view, "Bem-vindo, " + usuarioDoBanco.getNome() + "!");
+            // Armazena o usuário na sessão
+            util.Sessao.setUsuario(usuarioDoBanco);
+
+            // Abre a próxima tela (ex: TelaServicos)
+            new view.TelaServicos().setVisible(true);
+            view.dispose();
+        } else {
         JOptionPane.showMessageDialog(view, "E-mail ou senha incorretos!");
-    }
+        }
     }
 
+    }
+
+    public void abrirTelaCadastro() {
+    // 1. Abre a tela de cadastro
+    new view.TelaCadastro().setVisible(true);
+    
+    // 2. Fecha a tela de login atual
+    view.dispose();
     }
 }        

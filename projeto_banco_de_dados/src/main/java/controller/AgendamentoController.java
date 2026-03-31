@@ -37,12 +37,15 @@ public class AgendamentoController {
         ClienteDAO clienteDAO = new ClienteDAO();
         ServicoDAO servicoDAO = new ServicoDAO();
 
-        List<Cliente> clientes = clienteDAO.listarTodos();
-        if (clientes.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Erro: Nenhum cliente cadastrado!");
+        model.Usuario usuarioLogado = util.Sessao.getUsuario();
+
+
+        Cliente clienteSelecionado = clienteDAO.buscarPorEmail(usuarioLogado.getEmail());
+
+        if (clienteSelecionado == null) {
+            JOptionPane.showMessageDialog(view, "Erro: Perfil de cliente não encontrado para este usuário!");
             return;
         }
-        Cliente clienteSelecionado = clientes.get(0);
 
         // 2. Use a variável correta que veio do construtor (nomeServicoSelecionado ou similar)
         // Se no topo da sua classe o nome for diferente, ajuste aqui:

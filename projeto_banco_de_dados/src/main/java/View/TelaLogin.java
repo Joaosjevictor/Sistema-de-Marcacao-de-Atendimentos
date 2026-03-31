@@ -83,10 +83,6 @@ public class TelaLogin extends JFrame {
         controller.entrarNoSistema();
         });
         
-        btnEntrar.addActionListener(e -> {
-            new TelaServicos().setVisible(true);
-            this.dispose(); // Fecha a tela de login
-        });
 
 
          // --- Botão Cadastrar ---
@@ -100,7 +96,7 @@ public class TelaLogin extends JFrame {
     
         // Ação do botão Cadastrar para abrir a tela de cadastro
         btnCadastrar.addActionListener(e -> {
-            new TelaCadastro().setVisible(true);
+           controller.abrirTelaCadastro();
             this.dispose(); // Fecha a tela de login
         });
 

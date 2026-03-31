@@ -17,6 +17,7 @@ public class UsuarioDAO {
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
+            throw e;
         }
     }
 

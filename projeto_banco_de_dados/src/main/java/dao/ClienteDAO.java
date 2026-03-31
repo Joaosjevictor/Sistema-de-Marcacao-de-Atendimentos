@@ -31,4 +31,12 @@ public class ClienteDAO {
             return session.find(Cliente.class, id);
         }
     }
+
+    public Cliente buscarPorEmail(String email) {
+    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        return session.createQuery("from Cliente where email = :email", Cliente.class)
+                      .setParameter("email", email)
+                      .uniqueResult();
+    }
+}
 }

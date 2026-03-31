@@ -84,19 +84,7 @@ public class TelaAgendamento extends JFrame {
             controller.confirmarAgendamento();
         });  
         
-        // Lógica de Confirmação
-        btnFinalizar.addActionListener(e -> {
-            String data = txtData.getText();
-            String hora = (String) comboHoras.getSelectedItem();
-              
-            if (data.contains("_")) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha a data corretamente.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Agendamento realizado!\nServiço: " + servicoSelecionado + "\nData: " + data + "\nHora: " + hora);
-                this.dispose();
-                new TelaServicos().setVisible(true); // Volta para a tela de serviços
-            }
-        });
+       
     }
 
     public JFormattedTextField getTxtData() {
