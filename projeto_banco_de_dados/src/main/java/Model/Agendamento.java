@@ -101,6 +101,15 @@ public class Agendamento {
         this.data = data;
     }
 
+    public void setDataHora(String dataStr) {
+        try {
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            this.data = LocalDateTime.parse(dataStr, parser);
+        } catch (java.time.format.DateTimeParseException e) {
+            System.err.println("Erro ao converter data no Update: " + e.getMessage());
+        }
+    }
+
     public boolean isStatus() {
         return status;
     }

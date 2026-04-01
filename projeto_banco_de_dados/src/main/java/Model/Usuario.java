@@ -18,8 +18,8 @@ public class Usuario extends Pessoa {
 
     }
 
-    public Usuario(int id, String nome, String dataNascimento, String cpf, String email, String telefone, String senha, String nivelAcesso) {
-        super(id, nome, dataNascimento, cpf, email, telefone);
+    public Usuario(int id, String nome, String email, String senha, String nivelAcesso) {
+        super(id, nome, email);
         this.senha = senha;
         this.nivelAcesso = nivelAcesso;
     }
@@ -42,8 +42,8 @@ public class Usuario extends Pessoa {
 
     @Override
     public String toString() {
-        return "Usuario [senha=" + senha + ", nivelAcesso=" + nivelAcesso + ", id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", cpf=" + cpf 
-            + ", email=" + email + ", telefone=" + telefone + "]";  
+        return "Usuario [senha=" + senha + ", nivelAcesso=" + nivelAcesso + ", id=" + id + ", nome=" + nome + ", dataNascimento=" 
+            + ", email=" + email + "]";  
 
     }           
 

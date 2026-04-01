@@ -4,7 +4,6 @@ package app;
 import model.Servico;
 import dao.ServicoDAO;
 import util.HibernateUtil;
-import java.util.List;
 
 
 public class Main {
@@ -29,14 +28,16 @@ public class Main {
     }
 
     private static void popularServicoInicial() {
-        ServicoDAO dao = new ServicoDAO();
-        List<Servico> servicos = dao.listarTodos();
+    ServicoDAO dao = new ServicoDAO();
+    if (dao.listarTodos().isEmpty()) {
+        System.out.println("Populando serviços iniciais...");
         
-        // Se não houver nenhum serviço, cria o primeiro
-        if (servicos.isEmpty()) {
-            System.out.println("Criando serviço inicial de teste...");
-            Servico teste = new Servico(0, "Corte de Cabelo", 35.00);
-            dao.salvar(teste);
+        // Crie exatamente os nomes que você usa nos botões da TelaServicos!
+        dao.salvar(new Servico(0, "Corte de Cabelo", 25.00));
+        dao.salvar(new Servico(0, "Barba", 15.00));
+        dao.salvar(new Servico(0, "Cabelo + Barba", 40.00));
+        
+        System.out.println("Serviços criados com sucesso!");
         }
     }
 }

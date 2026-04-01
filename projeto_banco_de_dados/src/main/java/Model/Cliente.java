@@ -15,8 +15,8 @@ public class Cliente extends Pessoa {
 
     }
 
-    public Cliente(int id, String nome, String dataNascimento, String cpf, String email, String telefone, String endereco) {
-        super(id, nome, dataNascimento, cpf, email, telefone);
+    public Cliente(int id, String nome, String email, String endereco) {
+        super(id, nome, email);
         this.endereco = endereco;
     }
 
@@ -30,8 +30,8 @@ public class Cliente extends Pessoa {
 
     @Override
     public String toString() {
-        return "Cliente [endereco=" + endereco + ", id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento
-                + ", cpf=" + cpf + ", email=" + email + ", telefone=" + telefone + "]";
+        return "Cliente [endereco=" + endereco + ", id=" + id + ", nome=" + nome + ", dataNascimento=" 
+                + ", email=" + email + "]";
     }
 
     

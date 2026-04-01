@@ -26,25 +26,62 @@ public class AgendamentoDAO {
         }
     }
 
-    public void deletar(int id) {
-    Transaction transaction = null;
-    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-        transaction = session.beginTransaction();
-        Agendamento agendamento = session.find(Agendamento.class, id);
-        if (agendamento != null) {
-            session.remove(agendamento); // Remove a linha do banco
+    public Agendamento buscarPorId(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // O find busca o objeto direto pela Chave Primária (ID)
+            return session.find(Agendamento.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        transaction.commit();
-    } catch (Exception e) {
-        if (transaction != null) transaction.rollback();
-        e.printStackTrace();
     }
+
+    public void atualizar(Agendamento agendamento) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+             transaction = session.beginTransaction();
+        
+             // O merge sincroniza o objeto da memória com o banco
+            session.merge(agendamento);
+        
+            transaction.commit();
+            System.out.println("Agendamento atualizado com sucesso!");
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public boolean deletar(int id) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Agendamento agendamento = session.find(Agendamento.class, id);
+            if (agendamento != null) {
+                session.remove(agendamento); // Remove a linha do banco
+                transaction.commit();
+                return true;
+            }
+
+            return false; // Não encontrou o agendamento para deletar
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+         e.printStackTrace();
+            return false;
+        }
     }
     // Método para listar todos (Read)
-    public List<Agendamento> listarTodos() {
+   /*  public List<Agendamento> listarTodos() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // HQL (Hibernate Query Language) - Usamos o nome da CLASSE, não da tabela
             return session.createQuery("from Agendamento", Agendamento.class).list();
+        }
+    }*/
+    public List<Agendamento> listarPorCliente(int clienteId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+             return session.createQuery("FROM Agendamento WHERE cliente.id = :cId", Agendamento.class)
+                    .setParameter("cId", clienteId)
+                    .list();
         }
     }
 }

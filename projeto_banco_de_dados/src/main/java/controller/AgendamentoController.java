@@ -10,7 +10,6 @@ import dao.AgendamentoDAO;
 import dao.ClienteDAO;
 import dao.ServicoDAO;
 
-import java.util.List;
 
 public class AgendamentoController {
     private final TelaAgendamento view;
@@ -73,4 +72,48 @@ public class AgendamentoController {
             e.printStackTrace();
         }
     }
+
+    public void excluirAgendamento(int id) {
+        int resposta = JOptionPane.showConfirmDialog(view, "Deseja realmente excluir este agendamento?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+    
+        if (resposta == JOptionPane.YES_OPTION) {
+            AgendamentoDAO dao = new AgendamentoDAO();
+            dao.deletar(id); // Chama aquele método que você me enviou!
+        
+            JOptionPane.showMessageDialog(view, "Agendamento removido com sucesso!");
+            view.dispose(); // Fecha a tela após deletar
+        }
+    }    
+
+    public void atualizarHorario(int id) {
+    // 1. Coleta os novos dados da tela (igual ao confirmar)
+        String novaData = view.getTxtData().getText();
+        String novaHora = (String) view.getComboHoras().getSelectedItem();
+        String novaDataEHora = novaData + " " + novaHora;
+
+        try {
+            AgendamentoDAO dao = new AgendamentoDAO();
+        
+        // 2. Buscamos o agendamento original no banco
+            Agendamento agendamentoExistente = dao.buscarPorId(id); 
+        
+            if (agendamentoExistente != null) {
+            // 3. Atualizamos apenas o que mudou
+                agendamentoExistente.setDataHora(novaDataEHora);
+            
+            // 4. Mandamos o DAO salvar a alteração (Update)
+                dao.atualizar(agendamentoExistente);
+            
+                JOptionPane.showMessageDialog(view, "Horário alterado com sucesso!");
+                view.dispose();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Erro ao atualizar: " + e.getMessage());
+            e.printStackTrace();
+        }
+}
+
+
+
+    
 }    

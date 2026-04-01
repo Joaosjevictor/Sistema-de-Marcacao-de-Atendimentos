@@ -3,7 +3,9 @@ package controller;
 import javax.swing.JOptionPane;
 
 import dao.UsuarioDAO;
+import dao.ClienteDAO;
 import model.Usuario;
+import model.Cliente;
 import view.TelaCadastro;
 
 public class UsuarioController {
@@ -17,7 +19,6 @@ public class UsuarioController {
     public void salvarNovoUsuario() {
     // 1. Coleta os dados da View usando os Getters que você criou
     String nome = view.getTxtNome().getText();
-    String telefone = view.getTxtTelefone().getText();
     String email = view.getTxtEmail().getText();
     String senha = new String(view.getTxtSenha().getPassword());
 
@@ -28,24 +29,16 @@ public class UsuarioController {
         return;
     }
 
-    // 3. Cria o objeto Model 
-    // Como CPF e Data não estão na tela, passamos valores fixos para o teste
-    Usuario novoUsuario = new Usuario(
-        0, 
-        nome, 
-        "01/01/2000",   // Data padrão
-        "000.000.000-00", // CPF padrão
-        email, 
-        telefone, 
-        senha, 
-        "cliente"       // Nível de acesso padrão
-    );
+   
 
     try {
-        // 4. Chama o DAO para gravar no PostgreSQL
+        Usuario novoUsuario = new Usuario(0, nome, email, senha, "cliente");
         UsuarioDAO dao = new UsuarioDAO();
         dao.salvar(novoUsuario);
-
+    
+        Cliente novoCliente = new Cliente(0, nome, email, "Endereço Padrão");
+        ClienteDAO cDao = new ClienteDAO();
+        cDao.salvar(novoCliente);
         // 5. SUCESSO: Feedback e volta para o Login como você planejou
         JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso! Faça seu login.");
         

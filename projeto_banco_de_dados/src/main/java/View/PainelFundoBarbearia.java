@@ -13,7 +13,7 @@ public class PainelFundoBarbearia extends JPanel {
 
    public PainelFundoBarbearia() {
     // O "/" busca a partir da raiz da pasta de recursos (src/main/resources)
-    java.net.URL caminhoImagem = getClass().getResource("/imagem_login.png");
+    java.net.URL caminhoImagem = getClass().getResource("/imagem_cadastro.png");
 
     if (caminhoImagem != null) {
         this.imagemFundo = new ImageIcon(caminhoImagem).getImage();

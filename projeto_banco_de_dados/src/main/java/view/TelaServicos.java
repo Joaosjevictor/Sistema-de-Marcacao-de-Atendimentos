@@ -32,19 +32,19 @@ public class TelaServicos extends JFrame {
         painel.add(lblTitulo);
 
         // --- BOTÃO: CABELO ---
-        JButton btnCabelo = new JButton("Corte de Cabelo - R$ 40");
+        JButton btnCabelo = new JButton("Corte de Cabelo - R$ 25");
         btnCabelo.setBounds(xCentro, 480, largura, 70);
         estilizarBotaoServico(btnCabelo, corBotao, fonteBotao);
         painel.add(btnCabelo);
 
         // --- BOTÃO: BARBA ---
-        JButton btnBarba = new JButton("Barba Completa - R$ 30");
+        JButton btnBarba = new JButton("Barba Completa - R$ 15");
         btnBarba.setBounds(xCentro, 570, largura, 70);
         estilizarBotaoServico(btnBarba, corBotao, fonteBotao);
         painel.add(btnBarba);
 
         // --- BOTÃO: CABELO + BARBA ---
-        JButton btnCombo = new JButton("Cabelo + Barba - R$ 60");
+        JButton btnCombo = new JButton("Cabelo + Barba - R$ 40");
         btnCombo.setBounds(xCentro, 660, largura, 70);
         btnCombo.setBackground(new Color(60, 60, 60)); // Destaque para o combo
         estilizarBotaoServico(btnCombo, null, fonteBotao); 
@@ -61,7 +61,7 @@ public class TelaServicos extends JFrame {
         // Eventos de clique (Exemplo)
         btnCabelo.addActionListener(e -> controller.selecionarServico("Corte de Cabelo"));
         btnBarba.addActionListener(e -> controller.selecionarServico("Barba"));
-        btnCombo.addActionListener(e -> controller.selecionarServico("Combo Cabelo + Barba"));
+        btnCombo.addActionListener(e -> controller.selecionarServico("Cabelo + Barba"));
         
         btnSair.addActionListener(e -> {
             this.dispose();
