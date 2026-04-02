@@ -5,115 +5,93 @@ import model.Agendamento;
 import model.Servico;
 import model.Cliente;
 import javax.swing.JOptionPane;
-
 import dao.AgendamentoDAO;
 import dao.ClienteDAO;
 import dao.ServicoDAO;
 
-
 public class AgendamentoController {
     private final TelaAgendamento view;
-    private String servicoSelecionado; // Para saber o que foi escolhido
+    private String servicoSelecionado; 
 
     public AgendamentoController(TelaAgendamento view, String servicoSelecionado) {
         this.view = view;
-        this.servicoSelecionado= servicoSelecionado;
+        this.servicoSelecionado = servicoSelecionado;
     }
 
     public void confirmarAgendamento() {
-        // 1. Coleta os dados da View
+        // 1. Coleta e Validação
         String dataStr = view.getTxtData().getText();
         String horaStr = (String) view.getComboHoras().getSelectedItem();
         String dataEHora = dataStr + " " + horaStr;
         
-        // 2. Validação básica de campo vazio (máscara incompleta)
         if (dataStr.contains("_")) {
             JOptionPane.showMessageDialog(view, "Erro: Informe uma data válida!");
             return;
         }       
 
         try {
-        ClienteDAO clienteDAO = new ClienteDAO();
-        ServicoDAO servicoDAO = new ServicoDAO();
+            java.time.format.DateTimeFormatter parser = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            java.time.LocalDateTime dataDigitada = java.time.LocalDateTime.parse(dataEHora, parser);
+            java.time.LocalDateTime agora = java.time.LocalDateTime.now();
 
-        model.Usuario usuarioLogado = util.Sessao.getUsuario();
-
-
-        Cliente clienteSelecionado = clienteDAO.buscarPorEmail(usuarioLogado.getEmail());
-
-        if (clienteSelecionado == null) {
-            JOptionPane.showMessageDialog(view, "Erro: Perfil de cliente não encontrado para este usuário!");
-            return;
+        // Se a data digitada for ANTES de agora, barramos o processo
+        if (dataDigitada.isBefore(agora)) {
+            JOptionPane.showMessageDialog(view, "🚫 Erro: Não é possível agendar horários no passado!\n" 
+                                              + "Escolha uma data e hora posterior a: " 
+                                              + agora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM HH:mm")));
+            return; // Encerra o método aqui e não salva nada
         }
+            AgendamentoDAO agendamentoDAO = new AgendamentoDAO();
+            // Verificamos se a tela está em modo de EDIÇÃO ou CRIAÇÃO
+            Agendamento agendamentoDaTela = view.getAgendamentoExistente();
 
-        // 2. Use a variável correta que veio do construtor (nomeServicoSelecionado ou similar)
-        // Se no topo da sua classe o nome for diferente, ajuste aqui:
-        Servico servicoSelecionado = servicoDAO.buscarPorDescricao(this.servicoSelecionado);
+            if (agendamentoDaTela != null) {
+                // --- MODO UPDATE (U) ---
+                agendamentoDaTela.setDataHora(dataEHora);
+                agendamentoDAO.atualizar(agendamentoDaTela);
+                JOptionPane.showMessageDialog(view, "Agendamento atualizado com sucesso!");
+            } 
+            else {
+                // --- MODO CREATE (C) ---
+                ClienteDAO clienteDAO = new ClienteDAO();
+                ServicoDAO servicoDAO = new ServicoDAO();
+                model.Usuario usuarioLogado = util.Sessao.getUsuario();
 
-        // 3. REMOVIDAS as labels "id:", "status:", etc. 
-        // Passamos apenas as variáveis na ordem correta do construtor
-        Agendamento novoAgendamento = new Agendamento(
-            0, 
-            clienteSelecionado, 
-            servicoSelecionado, 
-            (float) servicoSelecionado.getPreco(), 
-            dataEHora, 
-            false
-        );
+                Cliente cliente = clienteDAO.buscarPorEmail(usuarioLogado.getEmail());
+                Servico servico = servicoDAO.buscarPorDescricao(this.servicoSelecionado);
 
-        AgendamentoDAO agendamentoDAO = new AgendamentoDAO();
-        agendamentoDAO.salvar(novoAgendamento);
+                if (cliente == null || servico == null) {
+                    JOptionPane.showMessageDialog(view, "Erro ao localizar Cliente ou Serviço!");
+                    return;
+                }
 
-        JOptionPane.showMessageDialog(view, "Agendamento realizado para " + dataEHora);
-        view.dispose();
-
+                Agendamento novo = new Agendamento(0, cliente, servico, (float) servico.getPreco(), dataEHora, false);
+                agendamentoDAO.salvar(novo);
+                JOptionPane.showMessageDialog(view, "Agendamento realizado com sucesso!");
+            }
+            
+            limparCampos(); // Fecha a tela após qualquer uma das operações
+       
+        }catch (java.time.format.DateTimeParseException e) {
+            JOptionPane.showMessageDialog(view, "Erro: Formato de data inválido!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Erro ao salvar agendamento: " + e.getMessage());
+            JOptionPane.showMessageDialog(view, "Erro na operação: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     public void excluirAgendamento(int id) {
-        int resposta = JOptionPane.showConfirmDialog(view, "Deseja realmente excluir este agendamento?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
-    
+        int resposta = JOptionPane.showConfirmDialog(view, "Deseja realmente cancelar este agendamento?", "Excluir", JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
-            AgendamentoDAO dao = new AgendamentoDAO();
-            dao.deletar(id); // Chama aquele método que você me enviou!
-        
-            JOptionPane.showMessageDialog(view, "Agendamento removido com sucesso!");
-            view.dispose(); // Fecha a tela após deletar
-        }
-    }    
-
-    public void atualizarHorario(int id) {
-    // 1. Coleta os novos dados da tela (igual ao confirmar)
-        String novaData = view.getTxtData().getText();
-        String novaHora = (String) view.getComboHoras().getSelectedItem();
-        String novaDataEHora = novaData + " " + novaHora;
-
-        try {
-            AgendamentoDAO dao = new AgendamentoDAO();
-        
-        // 2. Buscamos o agendamento original no banco
-            Agendamento agendamentoExistente = dao.buscarPorId(id); 
-        
-            if (agendamentoExistente != null) {
-            // 3. Atualizamos apenas o que mudou
-                agendamentoExistente.setDataHora(novaDataEHora);
-            
-            // 4. Mandamos o DAO salvar a alteração (Update)
-                dao.atualizar(agendamentoExistente);
-            
-                JOptionPane.showMessageDialog(view, "Horário alterado com sucesso!");
+            if (new AgendamentoDAO().deletar(id)) {
+                JOptionPane.showMessageDialog(view, "Agendamento removido!");
                 view.dispose();
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Erro ao atualizar: " + e.getMessage());
-            e.printStackTrace();
         }
+    }
+
+    private void limparCampos() {
+        view.getTxtData().setText(""); // Limpa a data
+        view.getComboHoras().setSelectedIndex(0); // Volta o combo para o primeiro horário
+    }
 }
-
-
-
-    
-}    

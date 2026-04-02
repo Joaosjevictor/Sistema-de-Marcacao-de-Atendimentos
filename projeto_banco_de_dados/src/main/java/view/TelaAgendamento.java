@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
 import controller.AgendamentoController;
+import model.Agendamento;
 
 import java.awt.*;
 import java.text.ParseException;
@@ -12,11 +13,13 @@ public class TelaAgendamento extends JFrame {
 
     private JFormattedTextField txtData;
     private JComboBox<String> comboHoras;
+    private JButton btnFinalizar;
+    private Agendamento agendamentoExistente = null;
 
     public TelaAgendamento(String servicoSelecionado) {
         setTitle("Invictus - Agendar Horário");
         setSize(540, 960);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         AgendamentoController controller = new AgendamentoController(this, servicoSelecionado);
@@ -72,8 +75,8 @@ public class TelaAgendamento extends JFrame {
         painel.add(comboHoras);
 
         // --- BOTÃO FINALIZAR ---
-        JButton btnFinalizar = new JButton("Confirmar Agendamento");
-        btnFinalizar.setBounds(xCentro, 750, largura, 60);
+        btnFinalizar = new JButton("Confirmar Agendamento");
+        btnFinalizar.setBounds(xCentro, 680, largura, 60);
         btnFinalizar.setBackground(new Color(25, 25, 25));
         btnFinalizar.setForeground(Color.WHITE);
         btnFinalizar.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -83,8 +86,41 @@ public class TelaAgendamento extends JFrame {
          btnFinalizar.addActionListener(e -> {
             controller.confirmarAgendamento();
         });  
-        
-       
+
+        // --- BOTÃO VOLTAR ---
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.setBounds(xCentro, 760, largura, 60);
+        btnVoltar.setBackground(new Color(25, 25, 25));
+        btnVoltar.setForeground(Color.WHITE);
+        btnVoltar.setFont(new Font("SansSerif", Font.BOLD, 18));
+        btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        painel.add(btnVoltar);
+
+         btnVoltar.addActionListener(e -> {
+            this.dispose();
+            new TelaServicos().setVisible(true);
+        });
+    }
+
+    public TelaAgendamento(Agendamento agendamento, String servicoNome) {
+        this(servicoNome); // Chama o construtor padrão para montar a tela (botões, etc)
+        this.agendamentoExistente = agendamento;
+    
+        // Preenche a data (convertendo de LocalDateTime para String do seu campo)
+        java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.txtData.setText(agendamento.getData().format(formato));
+    
+        // Preenche a hora no ComboBox
+        String hora = agendamento.getData().getHour() + ":00"; // Ajuste conforme seu combo
+        this.comboHoras.setSelectedItem(hora);
+    
+        // Muda o título do botão para ficar intuitivo
+        this.btnFinalizar.setText("Salvar Alteração");
+    }
+
+    // Getter para o controller saber se estamos editando
+    public Agendamento getAgendamentoExistente() {
+        return agendamentoExistente;
     }
 
     public JFormattedTextField getTxtData() {

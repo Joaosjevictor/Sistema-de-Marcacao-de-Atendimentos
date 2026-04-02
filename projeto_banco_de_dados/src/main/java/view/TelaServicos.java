@@ -50,6 +50,25 @@ public class TelaServicos extends JFrame {
         estilizarBotaoServico(btnCombo, null, fonteBotao); 
         painel.add(btnCombo);
 
+        // Dentro do construtor da TelaServicos.java
+
+        // 1. Criar o botão "Meus Agendamentos"
+        JButton btnVerAgendamentos = new JButton("Meus Agendamentos");
+        btnVerAgendamentos.setBackground(new Color(50, 50, 50));
+        btnVerAgendamentos.setForeground(Color.WHITE);
+        btnVerAgendamentos.setFont(new Font("SansSerif", Font.BOLD, 14));
+
+        // 2. Posicionar (Ajuste o X e Y conforme o layout da sua tela)
+        // Sugestão: colocar no canto superior direito ou logo abaixo do título
+        btnVerAgendamentos.setBounds(xCentro, 750, largura, 45); 
+        painel.add(btnVerAgendamentos);
+
+        // 3. Ação para abrir a nova tela
+        btnVerAgendamentos.addActionListener(e -> {
+        // Abre a tela que lista os agendamentos do cliente
+            new view.TelaMeusAgendamentos().setVisible(true);
+        });
+
         // --- BOTÃO VOLTAR ---
         JButton btnSair = new JButton("Sair / Voltar");
         btnSair.setBounds(xCentro, 800, largura, 40);
@@ -81,7 +100,7 @@ public class TelaServicos extends JFrame {
 
 
     public void fecharTela() {
-    this.dispose();
+        this.setVisible(false);
     }
 
     
