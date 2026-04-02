@@ -19,7 +19,6 @@ public class AgendamentoController {
     }
 
     public void confirmarAgendamento() {
-        // 1. Coleta e Validação
         String dataStr = view.getTxtData().getText();
         String horaStr = (String) view.getComboHoras().getSelectedItem();
         String dataEHora = dataStr + " " + horaStr;
@@ -34,25 +33,23 @@ public class AgendamentoController {
             java.time.LocalDateTime dataDigitada = java.time.LocalDateTime.parse(dataEHora, parser);
             java.time.LocalDateTime agora = java.time.LocalDateTime.now();
 
-        // Se a data digitada for ANTES de agora, barramos o processo
         if (dataDigitada.isBefore(agora)) {
             JOptionPane.showMessageDialog(view, "🚫 Erro: Não é possível agendar horários no passado!\n" 
                                               + "Escolha uma data e hora posterior a: " 
                                               + agora.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM HH:mm")));
-            return; // Encerra o método aqui e não salva nada
+            return; 
         }
             AgendamentoDAO agendamentoDAO = new AgendamentoDAO();
-            // Verificamos se a tela está em modo de EDIÇÃO ou CRIAÇÃO
             Agendamento agendamentoDaTela = view.getAgendamentoExistente();
 
             if (agendamentoDaTela != null) {
-                // --- MODO UPDATE (U) ---
+                // --- UPDATE  ---
                 agendamentoDaTela.setDataHora(dataEHora);
                 agendamentoDAO.atualizar(agendamentoDaTela);
                 JOptionPane.showMessageDialog(view, "Agendamento atualizado com sucesso!");
             } 
             else {
-                // --- MODO CREATE (C) ---
+                // --- CREATE  ---
                 ClienteDAO clienteDAO = new ClienteDAO();
                 ServicoDAO servicoDAO = new ServicoDAO();
                 model.Usuario usuarioLogado = util.Sessao.getUsuario();
@@ -70,7 +67,7 @@ public class AgendamentoController {
                 JOptionPane.showMessageDialog(view, "Agendamento realizado com sucesso!");
             }
             
-            limparCampos(); // Fecha a tela após qualquer uma das operações
+            limparCampos(); 
        
         }catch (java.time.format.DateTimeParseException e) {
             JOptionPane.showMessageDialog(view, "Erro: Formato de data inválido!");
@@ -85,13 +82,14 @@ public class AgendamentoController {
         if (resposta == JOptionPane.YES_OPTION) {
             if (new AgendamentoDAO().deletar(id)) {
                 JOptionPane.showMessageDialog(view, "Agendamento removido!");
-                view.dispose();
             }
         }
     }
 
+
     private void limparCampos() {
-        view.getTxtData().setText(""); // Limpa a data
-        view.getComboHoras().setSelectedIndex(0); // Volta o combo para o primeiro horário
+        view.getTxtData().setText(""); 
+        view.getComboHoras().setSelectedIndex(0); 
     }
+    
 }

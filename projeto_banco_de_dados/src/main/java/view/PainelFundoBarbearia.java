@@ -12,13 +12,11 @@ public class PainelFundoBarbearia extends JPanel {
     private Image imagemFundo;
 
    public PainelFundoBarbearia() {
-    // O "/" busca a partir da raiz da pasta de recursos (src/main/resources)
-    java.net.URL caminhoImagem = getClass().getResource("/imagem_cadastro.png");
+    java.net.URL caminhoImagem = getClass().getResource("/imagem_fundo.png");
 
     if (caminhoImagem != null) {
         this.imagemFundo = new ImageIcon(caminhoImagem).getImage();
     } else {
-        // Isso vai aparecer no seu terminal se o Java ainda não achar o arquivo
         System.out.println("ERRO: Imagem não encontrada! Verifique se ela está em src/main/resources");
     }
 
@@ -42,7 +40,6 @@ public class PainelFundoBarbearia extends JPanel {
         if (imagemFundo != null) {
             Graphics2D g2d = (Graphics2D) g;
 
-            // Melhora a qualidade da imagem ao esticar
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
             int larguraPainel = getWidth();
@@ -50,13 +47,11 @@ public class PainelFundoBarbearia extends JPanel {
             int larguraImg = imagemFundo.getWidth(this);
             int alturaImg = imagemFundo.getHeight(this);
 
-            // CÁLCULO DE PROPORÇÃO (Para não achatar o rosto do barbeiro)
             double escala = Math.max((double) larguraPainel / larguraImg, (double) alturaPainel / alturaImg);
             
             int larguraFinal = (int) (larguraImg * escala);
             int alturaFinal = (int) (alturaImg * escala);
             
-            // Centraliza a imagem no painel
             int x = (larguraPainel - larguraFinal) / 2;
             int y = (alturaPainel - alturaFinal) / 2;
 

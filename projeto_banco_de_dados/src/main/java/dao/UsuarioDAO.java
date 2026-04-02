@@ -21,7 +21,6 @@ public class UsuarioDAO {
         }
     }
 
-    // Método extra para o LoginController: Busca por email
     public Usuario buscarPorEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM Usuario WHERE email = :email", Usuario.class)

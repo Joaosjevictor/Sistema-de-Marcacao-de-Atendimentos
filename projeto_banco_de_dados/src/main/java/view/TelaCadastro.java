@@ -17,22 +17,16 @@ public class TelaCadastro extends JFrame {
 
     public TelaCadastro() {
         setTitle("Invictus - Cadastro de Cliente");
-        /*setSize(540, 960);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);*/
-        // No construtor da TelaLogin ou TelaCadastro
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) (screenSize.height * 0.85); // Usa 85% da altura da tela do usuário
-        int width = (int) (height * 0.56); // Mantém a proporção vertical
+        int height = (int) (screenSize.height * 0.85); 
+        int width = (int) (height * 0.56); 
         setSize(width, height); 
 
         UsuarioController controller = new UsuarioController(this);
 
-        // Reutiliza o painel de fundo que você já criou
-        PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
+        PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_fundo.png");
         add(painel);
 
-        // Configurações comuns de estilo
         Color corTexto = new Color(150, 150, 150);
         Font fonteLabel = new Font("SansSerif", Font.BOLD, 14);
         int xCentro = 100;
@@ -42,7 +36,7 @@ public class TelaCadastro extends JFrame {
         JLabel lblNome = new JLabel("NOME COMPLETO");
         lblNome.setForeground(corTexto);
         lblNome.setFont(fonteLabel);
-        lblNome.setBounds(xCentro, 450, largura, 20); // Começa mais alto (450)
+        lblNome.setBounds(xCentro, 450, largura, 20); 
         painel.add(lblNome);
 
         txtNome = new JTextField();
@@ -51,7 +45,7 @@ public class TelaCadastro extends JFrame {
         txtNome.setBackground(new Color(235, 235, 235));
         painel.add(txtNome);
 
-        // --- CAMPO TELEFONE (Com Máscara) ---
+        // --- CAMPO TELEFONE ---
         JLabel lblTelefone = new JLabel("TELEFONE");
         lblTelefone.setForeground(corTexto);
         lblTelefone.setFont(fonteLabel);
@@ -60,7 +54,6 @@ public class TelaCadastro extends JFrame {
 
         txtTelefone = new JFormattedTextField();
         try {
-            // Máscara para telefone brasileiro: (##) #####-####
             MaskFormatter mascara = new MaskFormatter("(##) #####-####");
             mascara.install(txtTelefone);
         } catch (ParseException e) { e.printStackTrace(); }
@@ -110,7 +103,7 @@ public class TelaCadastro extends JFrame {
             controller.salvarNovoUsuario();
         });
 
-        // --- BOTÃO VOLTAR (Para o Login) ---
+        // --- BOTÃO VOLTAR ---
         JButton btnVoltar = new JButton("VOLTAR PARA O LOGIN");
         btnVoltar.setBounds(xCentro, 860, largura, 30);
         btnVoltar.setContentAreaFilled(false); // Transparente
@@ -119,7 +112,6 @@ public class TelaCadastro extends JFrame {
         btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         painel.add(btnVoltar);
 
-        // Lógica para voltar
         btnVoltar.addActionListener(e -> {
             this.dispose();
             new TelaLogin().setVisible(true);

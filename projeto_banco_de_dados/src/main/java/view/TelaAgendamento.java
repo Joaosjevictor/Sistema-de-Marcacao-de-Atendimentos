@@ -24,7 +24,7 @@ public class TelaAgendamento extends JFrame {
 
         AgendamentoController controller = new AgendamentoController(this, servicoSelecionado);
 
-        PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_cadastro.png");
+        PainelFundoBarbearia painel = new PainelFundoBarbearia("/imagem_fundo.png");
         add(painel);
 
         // Estilo padrão
@@ -103,22 +103,19 @@ public class TelaAgendamento extends JFrame {
     }
 
     public TelaAgendamento(Agendamento agendamento, String servicoNome) {
-        this(servicoNome); // Chama o construtor padrão para montar a tela (botões, etc)
+        this(servicoNome); 
         this.agendamentoExistente = agendamento;
     
-        // Preenche a data (convertendo de LocalDateTime para String do seu campo)
         java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.txtData.setText(agendamento.getData().format(formato));
     
-        // Preenche a hora no ComboBox
-        String hora = agendamento.getData().getHour() + ":00"; // Ajuste conforme seu combo
+        String hora = agendamento.getData().getHour() + ":00"; 
         this.comboHoras.setSelectedItem(hora);
     
-        // Muda o título do botão para ficar intuitivo
         this.btnFinalizar.setText("Salvar Alteração");
     }
 
-    // Getter para o controller saber se estamos editando
+  
     public Agendamento getAgendamentoExistente() {
         return agendamentoExistente;
     }

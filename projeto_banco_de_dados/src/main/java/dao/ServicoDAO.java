@@ -24,7 +24,7 @@ public class ServicoDAO {
     Transaction transaction = null;
     try (Session session = HibernateUtil.getSessionFactory().openSession()) {
         transaction = session.beginTransaction();
-        session.merge(servico); // O Hibernate vê o ID e atualiza os campos no banco
+        session.merge(servico);
         transaction.commit();
     } catch (Exception e) {
         if (transaction != null) transaction.rollback();

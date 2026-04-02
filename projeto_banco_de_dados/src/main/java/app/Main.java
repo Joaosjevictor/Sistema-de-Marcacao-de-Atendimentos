@@ -32,7 +32,6 @@ public class Main {
     if (dao.listarTodos().isEmpty()) {
         System.out.println("Populando serviços iniciais...");
         
-        // Crie exatamente os nomes que você usa nos botões da TelaServicos!
         dao.salvar(new Servico(0, "Corte de Cabelo", 25.00));
         dao.salvar(new Servico(0, "Barba", 15.00));
         dao.salvar(new Servico(0, "Cabelo + Barba", 40.00));
