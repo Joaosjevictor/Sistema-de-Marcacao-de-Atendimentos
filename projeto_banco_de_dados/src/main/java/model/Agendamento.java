@@ -37,7 +37,7 @@ public class Agendamento {
     @Column(nullable = false)
     private LocalDateTime data;
     
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private boolean status = false;
 
 
