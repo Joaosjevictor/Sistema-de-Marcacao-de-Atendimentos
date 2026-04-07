@@ -23,7 +23,7 @@ public class LoginController {
     } else {
         System.out.println("Usuário " + email + " tentando logar...");
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuarioDoBanco = dao.buscarPorEmail(email); // Método que criamos no DAO
+        Usuario usuarioDoBanco = dao.buscarPorEmail(email); 
 
         if (usuarioDoBanco != null && usuarioDoBanco.getSenha().equals(senha)) {
             JOptionPane.showMessageDialog(view, "Bem-vindo, " + usuarioDoBanco.getNome() + "!");
