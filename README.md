@@ -31,12 +31,15 @@ Criação do banco de dados (ex: bd_agendamentos).
 
 Configuração
 1- Clone o repositório:
+```bash
   git clone https://github.com/Joaosjevictor/Sistema-de-Marcacao-de-Atendimentos.git
-
+```
 2- Ajuste as credenciais do banco de dados no arquivo src/main/resources/hibernate.cfg.xml:
-  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seu_banco</property>
-  <property name="hibernate.connection.username">seu_usuario</property>
-  <property name="hibernate.connection.password">sua_senha</property>
+```xml
+<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/seu_banco</property>
+<property name="hibernate.connection.username">seu_usuario</property>
+<property name="hibernate.connection.password">sua_senha</property>
+```
 
 3- Execute a classe principal (no pacote app).
 
